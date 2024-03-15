@@ -1,0 +1,95 @@
+﻿﻿﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+@model IEnumerable<Telefono>
+<input type="hidden" name="accion" value="@ViewBag.Accion" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroTelefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Compania)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+          
+            <th>
+                @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
+                {
+                    <button type="submit" class="btn btn-primary" formaction="@Url.Action("AgregarDetalles")">Agregar</button>
+                }
+
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @{
+            int index = -1;
+        }
+        @if (Model != null && Model.Count() > 0)
+        {
+            @foreach (var item in Model)
+            {
+                index++;
+                // var hidde = "table";
+                if (item.Id > -1)
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" value="@item.Id" name="Telefono[@index].Id">
+                            <input type="hidden" value="@item.IdCliente" name="Telefono[@index].IdCliente">
+                            <input class="form-control" data-readonly type="text" name="Telefono[@index].NumeroTelefono" value="@item.NumeroTelefono">
+                        </td>
+                        <td>
+                            <input  class="form-control" data-readonly type="text" name="Telefono[@index].Compania" value="@item.Compania">
+                        </td>
+                        <td>
+                            <input  class="form-control" data-readonly type="text" name="Telefono[@index].Tipo" value="@item.Tipo">
+                        </td>
+                        
+                        <td>
+                            @if (ViewBag.Accion == "Create" || ViewBag.Accion == "Edit")
+                            {
+                                <button name="index" value="@index" class="btn btn-primary" type="submit" formaction="@Url.Action("EliminarDetalles")">Eliminar</button>
+                            }
+
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr style="display:none">
+                        <td>
+                            <input type="hidden" value="@item.Id" name="Telefono[@index].Id">
+                            <input type="hidden" value="@item.IdCliente" name="Telefono[@index].IdCliente">
+                            <input type="hidden" name="Telefono[@index].NumeroTelefono" value="@item.NumeroTelefono">
+                            <input type="hidden" name="Telefono[@index].Compania" value="@item.Compania">
+                            <input type="hidden" name="Telefono[@index].Tipo" value="@item.Tipo">
+                            
+                        </td>
+                    </tr>
+                }
+            }
+        }
+
+    </tbody>
+</table>
+@if (ViewBag.Accion == "Details" || ViewBag.Accion == "Delete")
+{
+    <script>
+
+        const readOnly = document.querySelectorAll("*[data-readonly]");
+        for (var i = 0; i < readOnly.length; i++) {
+            const item = readOnly[i];
+            item.setAttribute("readonly",true);
+        }
+
+    </script>
+}

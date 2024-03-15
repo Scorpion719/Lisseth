@@ -1,0 +1,17 @@
+﻿-- Crear la tabla "Cliente"
+CREATE TABLE Cliente (
+    Id INT PRIMARY KEY IDENTITY,
+    Nombre NVARCHAR(100),
+    Direccion NVARCHAR(255),
+    Fecha DATE,
+    Correo NVARCHAR(100)
+);
+
+-- Crear la tabla "Telefono" con eliminación en cascada
+CREATE TABLE Telefono (
+    Id INT PRIMARY KEY IDENTITY,
+    IdCliente INT FOREIGN KEY REFERENCES Cliente(Id) ON DELETE CASCADE,
+    NumeroTelefono NVARCHAR(20),
+    Compania NVARCHAR(100),
+    Tipo NVARCHAR(50) -- Ejemplo: "Casa", "Trabajo", "Móvil", etc.
+);
